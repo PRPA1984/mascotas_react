@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { Pet, loadPets } from "./petsService"
+import { Pet, loadPets, savePet } from "./petsService"
 import "../styles.css"
 import { useErrorHandler } from "../common/utils/ErrorHandler"
 import { goHome } from "../common/utils/Tools"
@@ -9,6 +9,7 @@ import FormButton from "../common/components/FormButton"
 import FormTitle from "../common/components/FormTitle"
 import GlobalContent from "../common/components/GlobalContent"
 import { RouteComponentProps } from "react-router-dom"
+import DangerLabel from "../common/components/DangerLabel"
 
 export default function Pets(props: RouteComponentProps) {
   const [pets, setPets] = useState<Pet[]>([])
@@ -32,6 +33,17 @@ export default function Pets(props: RouteComponentProps) {
     props.history.push("/editPet")
   }
 
+  const goToPetProfile = (id: string) => {
+    props.history.push(`/pets/${id}`)
+  }
+
+  const changePetPrivacy = async (pet: Pet) => {
+    try {
+      await savePet({ id: pet.id, name: pet.name, birthDate: pet.birthDate, description: pet.description, visibility: pet.visibility! })
+    } catch (error) {
+      errorHandler.processRestValidations(error)
+    }
+  }
   useEffect(() => {
     void loadCurrentPets()
   }, [])
@@ -45,6 +57,8 @@ export default function Pets(props: RouteComponentProps) {
             <th> Nombre </th>
             <th> Descripción </th>
             <th> </th>
+            <th> </th>
+            <th> </th>
           </tr>
         </thead>
         <tbody>
@@ -53,6 +67,12 @@ export default function Pets(props: RouteComponentProps) {
               <tr key={i}>
                 <td>{pet.name}</td>
                 <td>{pet.description}</td>
+                <td>
+                  <div className="form-check form-switch">
+                    {pet.visibility ? <input className="form-check-input" type="checkbox" checked/> : <input className="form-check-input" type="checkbox" onChange={() => changePetPrivacy(pet)}/>}
+                    <label className="form-check-label">Private</label>
+                  </div>
+                </td>
                 <td className="text">
                   <img
                     src="/assets/edit.png"
@@ -60,12 +80,21 @@ export default function Pets(props: RouteComponentProps) {
                     onClick={() => editPetClick(pet.id)}
                   />
                 </td>
+                <td>
+                  <img
+                    src="/assets/profile.png"
+                    alt=""
+                    height="30"
+                    width="30"
+                    onClick={() => goToPetProfile(pet.id)}
+                  />
+                </td>
               </tr>
             )
           })}
         </tbody>
       </table>
-
+      <DangerLabel message={errorHandler.errorMessage} />
       <FormButtonBar>
         <FormAcceptButton label="Nueva Mascota" onClick={newPetClick} />
         <FormButton label="Cancelar" onClick={() => goHome(props)} />

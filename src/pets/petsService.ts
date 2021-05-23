@@ -6,6 +6,8 @@ export interface Pet {
   name: string
   birthDate: string
   description: string
+  visibility?: boolean
+  profilePicture?: string
 }
 
 export async function loadPets(): Promise<Pet[]> {
@@ -33,4 +35,8 @@ export async function savePet(payload: Pet): Promise<Pet> {
 
 export async function deletePet(id: string): Promise<void> {
   await axios.delete(environment.backendUrl + "/v1/pet/" + id)
+}
+
+export async function searchPetsByName(name: string) :Promise<Pet[]>{
+  return await axios.get(environment.backendUrl + "/v1/pet/search?name=" + name)
 }
