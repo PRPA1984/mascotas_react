@@ -39,6 +39,7 @@ export default function App() {
               <LoggedInRoute path="/pets" component={Pets} />
               <LoggedInRoute path="/editPet" component={NewPet} />
               <LoggedInRoute path="/editPet/:id" component={NewPet} />
+              <LoggedInRoute path="/search" component={Search} />
             </td>
           </tr>
         </tbody>
