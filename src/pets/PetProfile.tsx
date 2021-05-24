@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react"
-import logo from "../assets/loading.gif"
+import logo from ".../public/assets/loading.gif"
 import { RouteComponentProps } from "react-router-dom"
 import { loadPet, Pet } from "./petsService"
 import React from "react"
 import GlobalContent from "../common/components/GlobalContent"
 import FormTitle from "../common/components/FormTitle"
 import Form from "../common/components/Form"
-import { ErrorHandler, useErrorHandler } from "../common/utils/ErrorHandler"
+import { useErrorHandler } from "../common/utils/ErrorHandler"
 import DangerLabel from "../common/components/DangerLabel"
+import ImagePopupOnClick from "../common/components/ImagePopupOnClick"
 
 
 export default function PetProfile(props: RouteComponentProps<{ id: string }>){
@@ -32,17 +33,21 @@ export default function PetProfile(props: RouteComponentProps<{ id: string }>){
             <GlobalContent>
             <FormTitle>{`Perfil de ${pet.name}`}</FormTitle>
             <Form>
-                <div className="form-group">
-                    <img src={pet.profilePicture} alt="" height="100"/>
-                </div>
+                <ImagePopupOnClick image={pet.profilePicture ? pet.profilePicture : "/assets/favicon.png"} width="100" height="100"/>
                 <div className="form-group">
                     <label>Fecha de Nacimiento</label>
                     <input className="form-control" id="birthDate" value={pet.birthDate} disabled />
                 </div>
                 <div className="form-group">
                     <label>Descripcion</label>
-                    <input className="form-control" id="name" value={pet.description} disabled />
+                    <input className="form-control" id="description" value={pet.description} disabled />
                 </div>
+                {pet.uploadedPictures?.map((image,index) => {
+                    return(
+                        // eslint-disable-next-line react/jsx-key
+                        <ImagePopupOnClick image={image} width="300" height="300"/>
+                    )
+                })}
             </Form>
           </GlobalContent>
         )

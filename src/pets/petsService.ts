@@ -8,6 +8,7 @@ export interface Pet {
   description: string
   visibility?: boolean
   profilePicture?: string
+  uploadedPictures?: string[]
 }
 
 export async function loadPets(): Promise<Pet[]> {
