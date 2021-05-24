@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import logo from ".../public/assets/loading.gif"
 import { RouteComponentProps } from "react-router-dom"
 import { loadPet, Pet } from "./petsService"
 import React from "react"
@@ -61,7 +60,7 @@ export default function PetProfile(props: RouteComponentProps<{ id: string }>){
     }
     else {
         return (
-            <img src={logo} alt="loading..." />
+            <img src="/assets/loading.gif" alt="loading..." />
         )
     }
 }

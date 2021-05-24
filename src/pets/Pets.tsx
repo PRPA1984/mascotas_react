@@ -82,7 +82,7 @@ export default function Pets(props: RouteComponentProps) {
                 </td>
                 <td>
                   <img
-                    src="/assets/profile.png"
+                    src="/assets/favicon.png"
                     alt=""
                     height="30"
                     width="30"

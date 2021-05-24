@@ -13,8 +13,12 @@ import FormTitle from "../common/components/FormTitle"
 import Form from "../common/components/Form"
 import GlobalContent from "../common/components/GlobalContent"
 import { RouteComponentProps } from "react-router-dom"
+import FormImageUpload from "../common/components/FormImageUpload"
+import ImageUpload from "../common/components/ImageUpload"
 
 export default function NewPet(props: RouteComponentProps<{ id: string }>) {
+  const [profilePicture, setProfilePicture] = useState("")
+  const [pictures, setPictures] = useState<string[]>([])
   const [birthDate, setBirthDate] = useState("")
   const [description, setDescription] = useState("")
   const [petId, setPetId] = useState("")
@@ -67,6 +71,11 @@ export default function NewPet(props: RouteComponentProps<{ id: string }>) {
       errorHandler.processRestValidations(error)
     }
   }
+  const addImageToPictures = (image:string) => {
+    const auxArray:string[] = pictures
+    auxArray.push(image)
+    setPictures(auxArray)
+  }
 
   useEffect(() => {
     const id = props.match.params.id
@@ -80,6 +89,11 @@ export default function NewPet(props: RouteComponentProps<{ id: string }>) {
       <FormTitle>Nueva Mascota</FormTitle>
 
       <Form>
+
+        <ImageUpload
+          src={profilePicture ? profilePicture : "/assets/favicon.png"}
+          onChange={setProfilePicture}
+        />
         <FormInput
           label="Nombre"
           name="name"
@@ -104,6 +118,11 @@ export default function NewPet(props: RouteComponentProps<{ id: string }>) {
           errorHandler={errorHandler}
         />
 
+        <ImageUpload
+          src={"/assets/plus.png"}
+          onChange={addImageToPictures}
+        />
+
         <DangerLabel message={errorHandler.errorMessage} />
 
         <FormButtonBar>
@@ -114,7 +133,6 @@ export default function NewPet(props: RouteComponentProps<{ id: string }>) {
             label="Eliminar"
             onClick={deleteClick}
           />
-
           <FormButton label="Cancelar" onClick={() => goHome(props)} />
         </FormButtonBar>
       </Form>

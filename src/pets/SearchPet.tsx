@@ -33,7 +33,13 @@ export default function Search(props : RouteComponentProps) {
                                 <tr key={i}>
                                     <td>{pet.name}</td>
                                     <td>{pet.description}</td>
-                                    <button onClick={() => goToPetProfile(pet.id)}>Pet Profile</button>
+                                    <img
+                                    src="/assets/favicon.png"
+                                    alt=""
+                                    height="30"
+                                    width="30"
+                                    onClick={() => goToPetProfile(pet.id)}
+                                    />
                                 </tr>
                                 )
                             })}
