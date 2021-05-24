@@ -69,7 +69,7 @@ export default function Pets(props: RouteComponentProps) {
                 <td>{pet.description}</td>
                 <td>
                   <div className="form-check form-switch">
-                    {pet.visibility ? <input className="form-check-input" type="checkbox" checked/> : <input className="form-check-input" type="checkbox" onChange={() => changePetPrivacy(pet)}/>}
+                    {pet.visibility ? <input className="form-check-input" type="checkbox" onChange={() => changePetPrivacy(pet)} checked/> : <input className="form-check-input" type="checkbox" onChange={() => changePetPrivacy(pet)}/>}
                     <label className="form-check-label">Private</label>
                   </div>
                 </td>
