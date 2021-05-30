@@ -7,8 +7,13 @@ export interface Pet {
   birthDate: string
   description: string
   visibility?: boolean
-  profilePicture?: string
-  uploadedPictures?: string[]
+  profilePicture?: Image
+  uploadedPictures?: Image[]
+}
+
+export interface Image {
+  src: string,
+  id: string
 }
 
 export async function loadPets(): Promise<Pet[]> {

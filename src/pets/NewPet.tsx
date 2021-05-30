@@ -18,7 +18,7 @@ import ImageUpload from "../common/components/ImageUpload"
 
 export default function NewPet(props: RouteComponentProps<{ id: string }>) {
   const [profilePicture, setProfilePicture] = useState("")
-  const [pictures, setPictures] = useState<string[]>([])
+  const [pictures, setPictures] = useState<Image[]>([])
   const [birthDate, setBirthDate] = useState("")
   const [description, setDescription] = useState("")
   const [petId, setPetId] = useState("")
@@ -62,7 +62,7 @@ export default function NewPet(props: RouteComponentProps<{ id: string }>) {
 
     try {
       if (petId) {
-        await savePet({ id: petId, name, birthDate, description })
+        await savePet({ id: petId, name, birthDate, description, profilePicture, uploadedPictures: pictures })
       } else {
         await newPet({ name, birthDate, description })
       }
@@ -71,8 +71,8 @@ export default function NewPet(props: RouteComponentProps<{ id: string }>) {
       errorHandler.processRestValidations(error)
     }
   }
-  const addImageToPictures = (image:string) => {
-    const auxArray:string[] = pictures
+  const addImageToPictures = (image:Image) => {
+    const auxArray:Image[] = pictures
     auxArray.push(image)
     setPictures(auxArray)
   }
@@ -91,7 +91,7 @@ export default function NewPet(props: RouteComponentProps<{ id: string }>) {
       <Form>
 
         <ImageUpload
-          src={profilePicture ? profilePicture : "/assets/favicon.png"}
+          src={profilePicture.src ? profilePicture.src : "/assets/favicon.png"}
           onChange={setProfilePicture}
         />
         <FormInput
