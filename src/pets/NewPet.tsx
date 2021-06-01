@@ -64,7 +64,7 @@ export default function NewPet(props: RouteComponentProps<{ id: string }>) {
       if (petId) {
         await savePet({ id: petId, name, birthDate, description, profilePicture, uploadedPictures: pictures })
       } else {
-        await newPet({ name, birthDate, description })
+        await newPet({ name, birthDate, description, profilePicture, uploadedPictures: pictures })
       }
       props.history.push("/pets")
     } catch (error) {
@@ -74,6 +74,12 @@ export default function NewPet(props: RouteComponentProps<{ id: string }>) {
   const addImageToPictures = (image:Image) => {
     const auxArray:Image[] = pictures
     auxArray.push(image)
+    setPictures(auxArray)
+  }
+
+  const deleteImageFromPictures = (image: Image) => {
+    const auxArray:Image[] = pictures
+    void auxArray.pop(image)
     setPictures(auxArray)
   }
 
@@ -122,6 +128,15 @@ export default function NewPet(props: RouteComponentProps<{ id: string }>) {
           src={"/assets/plus.png"}
           onChange={addImageToPictures}
         />
+
+        <div className="form-group">
+            {pictures?.map((image,index) => {
+                return(
+                    // eslint-disable-next-line react/jsx-key
+                    <ImageButton image={image} buttonString="X" onButtonClick = {deleteImageFromPictures}/>
+                )
+            })}
+        </div>
 
         <DangerLabel message={errorHandler.errorMessage} />
 

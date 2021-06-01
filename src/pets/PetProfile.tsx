@@ -41,12 +41,15 @@ export default function PetProfile(props: RouteComponentProps<{ id: string }>){
                     <label>Descripcion</label>
                     <input className="form-control" id="description" value={pet.description} disabled />
                 </div>
-                {pet.uploadedPictures?.map((image,index) => {
-                    return(
-                        // eslint-disable-next-line react/jsx-key
-                        <ImagePopupOnClick image={image.src} width="300" height="300"/>
-                    )
-                })}
+                <div className="form-group">
+                    {pet.uploadedPictures?.map((image,index) => {
+                        return(
+                            // eslint-disable-next-line react/jsx-key
+                            <ImagePopupOnClick image={image.src} width="300" height="300"/>
+                        )
+                    })}
+                </div>
+                
             </Form>
           </GlobalContent>
         )

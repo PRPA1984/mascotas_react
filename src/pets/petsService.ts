@@ -28,6 +28,9 @@ export async function newPet(payload: {
   name: string
   birthDate: string
   description: string
+  profilePicture: Image 
+  uploadedPictures: Image[]
+
 }): Promise<Pet> {
   return (await axios.post(environment.backendUrl + "/v1/pet", payload))
     .data as Pet
