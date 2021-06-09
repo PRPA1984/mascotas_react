@@ -8,7 +8,7 @@ export interface Pet {
   description: string
   visibility?: boolean
   profilePicture?: Image | null
-  uploadedPictures?: Image[]
+  pictures?: Image[]
 }
 
 export interface Image {
@@ -29,7 +29,7 @@ export async function newPet(payload: {
   birthDate: string
   description: string
   profilePicture: Image | null
-  uploadedPictures: Image[]
+  pictures: Image[]
 
 }): Promise<Pet> {
   return (await axios.post(environment.backendUrl + "/v1/pet", payload))

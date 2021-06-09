@@ -8,6 +8,7 @@ import Form from "../common/components/Form"
 import { useErrorHandler } from "../common/utils/ErrorHandler"
 import DangerLabel from "../common/components/DangerLabel"
 import ImagePopupOnClick from "../common/components/ImagePopupOnClick"
+import ImageUpload from "../common/components/ImageUpload"
 
 
 export default function PetProfile(props: RouteComponentProps<{ id: string }>){
@@ -32,7 +33,7 @@ export default function PetProfile(props: RouteComponentProps<{ id: string }>){
             <GlobalContent>
             <FormTitle>{`Perfil de ${pet.name}`}</FormTitle>
             <Form>
-                <ImagePopupOnClick image={pet.profilePicture?.src ? pet.profilePicture.src : "/assets/favicon.png"} width="100" height="100"/>
+                <ImagePopupOnClick image={pet.profilePicture ? pet.profilePicture.src : "/assets/favicon.png"} width="100" height="100"/>
                 <div className="form-group">
                     <label>Fecha de Nacimiento</label>
                     <input className="form-control" id="birthDate" value={pet.birthDate} disabled />
@@ -42,7 +43,7 @@ export default function PetProfile(props: RouteComponentProps<{ id: string }>){
                     <input className="form-control" id="description" value={pet.description} disabled />
                 </div>
                 <div className="form-group">
-                    {pet.uploadedPictures?.map((image,index) => {
+                    {pet.pictures?.map((image,index) => {
                         return(
                             // eslint-disable-next-line react/jsx-key
                             <ImagePopupOnClick image={image.src} width="300" height="300"/>

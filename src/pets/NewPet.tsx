@@ -42,6 +42,10 @@ export default function NewPet(props: RouteComponentProps<{ id: string }>) {
       }
     }
   }
+
+  const changeProfilePicture = (image: string) => {
+    setProfilePicture({src: image, id: ""})
+  }
   const deleteClick = async () => {
     if (petId) {
       try {
@@ -65,24 +69,26 @@ export default function NewPet(props: RouteComponentProps<{ id: string }>) {
 
     try {
       if (petId) {
-        await savePet({ id: petId, name, birthDate, description, profilePicture, uploadedPictures: pictures })
+        await savePet({ id: petId, name, birthDate, description, profilePicture, pictures })
       } else {
-        await newPet({ name, birthDate, description, profilePicture, uploadedPictures: pictures })
+        await newPet({ name, birthDate, description, profilePicture, pictures })
       }
       props.history.push("/pets")
     } catch (error) {
       errorHandler.processRestValidations(error)
     }
   }
-  const addImageToPictures = (image:Image) => {
+  const addImageToPictures = (image:string) => {
     const auxArray:Image[] = pictures
-    auxArray.push(image)
+    const newPic = {src: image, id: ""}
+    auxArray.push(newPic)
     setPictures(auxArray)
   }
 
   const deleteImageFromPictures = (image: Image) => {
     const auxArray:Image[] = pictures
-    void auxArray.pop(image)
+    const index = auxArray.indexOf(image)
+    if (index !== -1) auxArray.splice(index, 1)
     setPictures(auxArray)
   }
 
@@ -102,7 +108,7 @@ export default function NewPet(props: RouteComponentProps<{ id: string }>) {
         <ImageUpload
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           src={profilePicture?.src ? profilePicture.src : "/assets/favicon.png"}
-          onChange={setProfilePicture}
+          onChange={changeProfilePicture}
         />
         <FormInput
           label="Nombre"
