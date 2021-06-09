@@ -15,9 +15,12 @@ import GlobalContent from "../common/components/GlobalContent"
 import { RouteComponentProps } from "react-router-dom"
 import FormImageUpload from "../common/components/FormImageUpload"
 import ImageUpload from "../common/components/ImageUpload"
+import ImageButton from "../common/components/ImageDeleteOnClick"
+import { Image } from "./petsService"
+
 
 export default function NewPet(props: RouteComponentProps<{ id: string }>) {
-  const [profilePicture, setProfilePicture] = useState("")
+  const [profilePicture, setProfilePicture] = useState<Image | null>(null)
   const [pictures, setPictures] = useState<Image[]>([])
   const [birthDate, setBirthDate] = useState("")
   const [description, setDescription] = useState("")
@@ -97,7 +100,8 @@ export default function NewPet(props: RouteComponentProps<{ id: string }>) {
       <Form>
 
         <ImageUpload
-          src={profilePicture.src ? profilePicture.src : "/assets/favicon.png"}
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          src={profilePicture?.src ? profilePicture.src : "/assets/favicon.png"}
           onChange={setProfilePicture}
         />
         <FormInput

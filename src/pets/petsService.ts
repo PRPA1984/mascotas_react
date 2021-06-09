@@ -7,7 +7,7 @@ export interface Pet {
   birthDate: string
   description: string
   visibility?: boolean
-  profilePicture?: Image
+  profilePicture?: Image | null
   uploadedPictures?: Image[]
 }
 
@@ -28,7 +28,7 @@ export async function newPet(payload: {
   name: string
   birthDate: string
   description: string
-  profilePicture: Image 
+  profilePicture: Image | null
   uploadedPictures: Image[]
 
 }): Promise<Pet> {
