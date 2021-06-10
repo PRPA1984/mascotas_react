@@ -33,7 +33,7 @@ export default function PetProfile(props: RouteComponentProps<{ id: string }>){
             <GlobalContent>
             <FormTitle>{`Perfil de ${pet.name}`}</FormTitle>
             <Form>
-                <ImagePopupOnClick image={pet.profilePicture ? pet.profilePicture.src : "/assets/favicon.png"} width="100" height="100"/>
+                <ImagePopupOnClick image={pet.profilePicture ? pet.profilePicture.src : "/assets/favicon.png"} width="150" height="150"/>
                 <div className="form-group">
                     <label>Fecha de Nacimiento</label>
                     <input className="form-control" id="birthDate" value={pet.birthDate} disabled />
@@ -66,4 +66,8 @@ export default function PetProfile(props: RouteComponentProps<{ id: string }>){
             <img src="/assets/loading.gif" alt="loading..." />
         )
     }
+}
+
+function pictures(pictures: any) {
+    throw new Error("Function not implemented.")
 }

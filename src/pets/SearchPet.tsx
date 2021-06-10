@@ -18,36 +18,8 @@ export default function Search(props : RouteComponentProps) {
     const searchPets = async () => {
         try {
             setPets(await searchPetsByName(petName))
-
-            petSearch = <table id="mascotas" className="table">
-                            <thead>
-                            <tr>
-                                <th> Nombre </th>
-                                <th> Descripción </th>
-                                <th> </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {pets.map((pet, i) => {
-                                return (
-                                <tr key={i}>
-                                    <td>{pet.name}</td>
-                                    <td>{pet.description}</td>
-                                    <img
-                                    src="/assets/favicon.png"
-                                    alt=""
-                                    height="30"
-                                    width="30"
-                                    onClick={() => goToPetProfile(pet.id)}
-                                    />
-                                </tr>
-                                )
-                            })}
-                            </tbody>
-                        </table>
         } catch (error) {
             errorHandler.processRestValidations(error)
-            petSearch = <DangerLabel message={errorHandler.errorMessage} />
         }
     }
 
@@ -62,7 +34,40 @@ export default function Search(props : RouteComponentProps) {
                     <button className="btn btn-outline-secondary" type="button" onClick={() => searchPets()}>Search</button>
                 </div>
             </div>
-            {petSearch}
+            <table id="mascotas" className="table">
+                            <thead>
+                            <tr>
+                                <th/>
+                                <th> Nombre </th>
+                                <th> Descripción </th>
+                                <th/>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {pets.map((pet, i) => {
+                                return (
+                                <tr key={i}>
+                                    {pet.profilePicture? <img
+                                    src={pet.profilePicture?.src}
+                                    alt=""
+                                    height="50"
+                                    width="50"
+                                    />: null}
+                                    <td>{pet.name}</td>
+                                    <td>{pet.description}</td>
+                                    <img
+                                    src="/assets/favicon.png"
+                                    alt=""
+                                    height="30"
+                                    width="30"
+                                    onClick={() => goToPetProfile(pet.id)}
+                                    />
+                                </tr>
+                                )
+                            })}
+                            </tbody>
+            </table>
+            <DangerLabel message={errorHandler.errorMessage} />
         </GlobalContent >
     )
 }

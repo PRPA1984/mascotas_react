@@ -17,6 +17,7 @@ import FormImageUpload from "../common/components/FormImageUpload"
 import ImageUpload from "../common/components/ImageUpload"
 import ImageButton from "../common/components/ImageDeleteOnClick"
 import { Image } from "./petsService"
+import ImagePopupOnClick from "../common/components/ImagePopupOnClick"
 
 
 export default function NewPet(props: RouteComponentProps<{ id: string }>) {
@@ -37,6 +38,8 @@ export default function NewPet(props: RouteComponentProps<{ id: string }>) {
         setPetId(result.id)
         setName(result.name)
         setDescription(result.description)
+        result.profilePicture ? setProfilePicture(result.profilePicture) : setProfilePicture(null)
+        result.pictures ? setPictures(result.pictures) : setPictures([])
       } catch (error) {
         errorHandler.processRestValidations(error)
       }
@@ -143,7 +146,9 @@ export default function NewPet(props: RouteComponentProps<{ id: string }>) {
             {pictures?.map((image,index) => {
                 return(
                     // eslint-disable-next-line react/jsx-key
-                    <ImageButton image={image} buttonString="X" onButtonClick = {deleteImageFromPictures}/>
+                    <div>
+                      <ImageButton image={image} buttonString="X" onButtonClick = {deleteImageFromPictures}/> 
+                    </div>
                 )
             })}
         </div>
