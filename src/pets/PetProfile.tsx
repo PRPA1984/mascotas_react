@@ -8,7 +8,6 @@ import Form from "../common/components/Form"
 import { useErrorHandler } from "../common/utils/ErrorHandler"
 import DangerLabel from "../common/components/DangerLabel"
 import ImagePopupOnClick from "../common/components/ImagePopupOnClick"
-import ImageUpload from "../common/components/ImageUpload"
 
 
 export default function PetProfile(props: RouteComponentProps<{ id: string }>){

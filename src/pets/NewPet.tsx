@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useErrorHandler } from "../common/utils/ErrorHandler"
-import { goHome } from "../common/utils/Tools"
+import { goHome, useForceUpdate } from "../common/utils/Tools"
 import "../styles.css"
 import { deletePet, loadPet, newPet, savePet } from "./petsService"
 import DangerLabel from "../common/components/DangerLabel"
@@ -15,7 +15,7 @@ import GlobalContent from "../common/components/GlobalContent"
 import { RouteComponentProps } from "react-router-dom"
 import FormImageUpload from "../common/components/FormImageUpload"
 import ImageUpload from "../common/components/ImageUpload"
-import ImageButton from "../common/components/ImageDeleteOnClick"
+import ImageButton from "../common/components/ImageButton"
 import { Image } from "./petsService"
 import ImagePopupOnClick from "../common/components/ImagePopupOnClick"
 
@@ -28,6 +28,7 @@ export default function NewPet(props: RouteComponentProps<{ id: string }>) {
   const [petId, setPetId] = useState("")
   const [name, setName] = useState("")
 
+  const forceUpdate = useForceUpdate()
   const errorHandler = useErrorHandler()
 
   const loadPetById = async (id: string) => {
@@ -86,6 +87,7 @@ export default function NewPet(props: RouteComponentProps<{ id: string }>) {
     const newPic = {src: image, id: ""}
     auxArray.push(newPic)
     setPictures(auxArray)
+    forceUpdate()
   }
 
   const deleteImageFromPictures = (image: Image) => {
@@ -93,6 +95,7 @@ export default function NewPet(props: RouteComponentProps<{ id: string }>) {
     const index = auxArray.indexOf(image)
     if (index !== -1) auxArray.splice(index, 1)
     setPictures(auxArray)
+    forceUpdate()
   }
 
   useEffect(() => {
@@ -136,23 +139,18 @@ export default function NewPet(props: RouteComponentProps<{ id: string }>) {
           onChange={(event) => setBirthDate(event.target.value)}
           errorHandler={errorHandler}
         />
-
-        <ImageUpload
-          src={"/assets/plus.png"}
-          onChange={addImageToPictures}
-        />
-
         <div className="form-group">
-            {pictures?.map((image,index) => {
-                return(
-                    // eslint-disable-next-line react/jsx-key
-                    <div>
-                      <ImageButton image={image} buttonString="X" onButtonClick = {deleteImageFromPictures}/> 
-                    </div>
-                )
-            })}
+          <ImageUpload
+            src={"/assets/plus.png"}
+            onChange={addImageToPictures}
+          />
+          {pictures?.map((image,index) => {
+          return(
+              // eslint-disable-next-line react/jsx-key
+            <ImageButton image={image} buttonString="X" onButtonClick = {deleteImageFromPictures}/>
+          )
+        })}
         </div>
-
         <DangerLabel message={errorHandler.errorMessage} />
 
         <FormButtonBar>

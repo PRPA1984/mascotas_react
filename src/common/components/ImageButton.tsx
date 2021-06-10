@@ -11,8 +11,8 @@ export default function ImageButton(props:{image:Image, onButtonClick: (image: I
     }
     return (
         <div className="container">
-            <img src={props.image.src}/>
-            <button className="btn" onClick={() => props.onButtonClick(props.image)}></button>
+            <img src={props.image.src} height="300" width="300"/>
+            <button className="btn" onClick={() => props.onButtonClick(props.image)}>{props.buttonString}</button>
         </div>
     )
 }
