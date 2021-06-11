@@ -46,6 +46,9 @@ export async function deletePet(id: string): Promise<void> {
   await axios.delete(environment.backendUrl + "/v1/pet/" + id)
 }
 
+export async function changePetPrivacy(id: string): Promise<void>{
+  await axios.post(environment.backendUrl + `/v1/pet/${id}/changePrivacy`)
+}
 export async function searchPetsByName(search: string) :Promise<Pet[]>{
   return (await axios.get(environment.backendUrl + "/v1/pet/search", { params: { search } })).data as Pet[]
 }

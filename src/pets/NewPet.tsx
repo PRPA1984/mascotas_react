@@ -13,12 +13,9 @@ import FormTitle from "../common/components/FormTitle"
 import Form from "../common/components/Form"
 import GlobalContent from "../common/components/GlobalContent"
 import { RouteComponentProps } from "react-router-dom"
-import FormImageUpload from "../common/components/FormImageUpload"
 import ImageUpload from "../common/components/ImageUpload"
 import ImageButton from "../common/components/ImageButton"
 import { Image } from "./petsService"
-import ImagePopupOnClick from "../common/components/ImagePopupOnClick"
-
 
 export default function NewPet(props: RouteComponentProps<{ id: string }>) {
   const [profilePicture, setProfilePicture] = useState<Image | null>(null)
@@ -98,6 +95,43 @@ export default function NewPet(props: RouteComponentProps<{ id: string }>) {
     forceUpdate()
   }
 
+  const petPictures = () => {
+    const auxPictures:any = []
+    const deleteMessage:string = "Delete"
+    if (pictures) {
+        for (let i = 0; i < pictures?.length + 1; i++) {
+            if(i === 0){
+              auxPictures[i] = <tr key={i}>
+                                    <td><ImageUpload src={"/assets/plus.png"} onChange={addImageToPictures}/></td>
+                                    {pictures[i]   ? <td><ImageButton image={pictures[i]} buttonString={deleteMessage} onButtonClick = {deleteImageFromPictures}/></td> : null}
+                                    {pictures[i+1]   ? <td><ImageButton image={pictures[i+1]} buttonString={deleteMessage} onButtonClick = {deleteImageFromPictures}/></td> : null}
+                                </tr>
+            }
+            else if(i % 3 === 0){
+                auxPictures[i] = <tr key={i}>
+                                    {pictures[i-1]   ? <td><ImageButton image={pictures[i-1]} buttonString={deleteMessage} onButtonClick = {deleteImageFromPictures}/></td> : null}
+                                    {pictures[i]   ? <td><ImageButton image={pictures[i]} buttonString={deleteMessage} onButtonClick = {deleteImageFromPictures}/></td> : null}
+                                    {pictures[i+1]   ? <td><ImageButton image={pictures[i+1]} buttonString={deleteMessage} onButtonClick = {deleteImageFromPictures}/></td> : null}
+                                </tr>
+            }
+        }
+    }
+    return (
+        <table id="mascotas" className="table">
+        <thead>
+        <tr>
+            <th/>
+            <th/>
+            <th/>
+        </tr>
+        </thead>
+        <tbody>
+        {auxPictures}
+        </tbody>
+        </table>
+    )
+}
+
   useEffect(() => {
     const id = props.match.params.id
     if (id) {
@@ -107,7 +141,7 @@ export default function NewPet(props: RouteComponentProps<{ id: string }>) {
 
   return (
     <GlobalContent>
-      <FormTitle>Nueva Mascota</FormTitle>
+      <FormTitle>Edición de Mascota</FormTitle>
 
       <Form>
 
@@ -140,16 +174,7 @@ export default function NewPet(props: RouteComponentProps<{ id: string }>) {
           errorHandler={errorHandler}
         />
         <div className="form-group">
-          <ImageUpload
-            src={"/assets/plus.png"}
-            onChange={addImageToPictures}
-          />
-          {pictures?.map((image,index) => {
-          return(
-              // eslint-disable-next-line react/jsx-key
-            <ImageButton image={image} buttonString="X" onButtonClick = {deleteImageFromPictures}/>
-          )
-        })}
+          {petPictures()}
         </div>
         <DangerLabel message={errorHandler.errorMessage} />
 

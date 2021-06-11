@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react"
-import { Pet, loadPets, savePet } from "./petsService"
+import { Pet, loadPets, savePet, changePetPrivacy } from "./petsService"
 import "../styles.css"
 import { useErrorHandler } from "../common/utils/ErrorHandler"
-import { goHome } from "../common/utils/Tools"
+import { goHome, useForceUpdate } from "../common/utils/Tools"
 import FormButtonBar from "../common/components/FormButtonBar"
 import FormAcceptButton from "../common/components/FormAcceptButton"
 import FormButton from "../common/components/FormButton"
@@ -15,6 +15,8 @@ export default function Pets(props: RouteComponentProps) {
   const [pets, setPets] = useState<Pet[]>([])
 
   const errorHandler = useErrorHandler()
+
+  const forceUpdate = useForceUpdate()
 
   const loadCurrentPets = async () => {
     try {
@@ -37,9 +39,17 @@ export default function Pets(props: RouteComponentProps) {
     props.history.push(`/pets/${id}`)
   }
 
-  const changePetPrivacy = async (pet: Pet) => {
+  const changePrivacy = async (pet: Pet) => {
     try {
-      await savePet({ id: pet.id, name: pet.name, birthDate: pet.birthDate, description: pet.description, visibility: pet.visibility! })
+      await changePetPrivacy(pet.id)
+      const auxPets = pets.map((petElement, index) => {
+        if (petElement.id === pet.id){
+          petElement.visibility = !petElement.visibility
+        }
+        return petElement
+      })
+      setPets(auxPets)
+      forceUpdate()
     } catch (error) {
       errorHandler.processRestValidations(error)
     }
@@ -69,8 +79,8 @@ export default function Pets(props: RouteComponentProps) {
                 <td>{pet.description}</td>
                 <td>
                   <div className="form-check form-switch">
-                    {pet.visibility ? <input className="form-check-input" type="checkbox" onChange={() => changePetPrivacy(pet)} checked/> : <input className="form-check-input" type="checkbox" onChange={() => changePetPrivacy(pet)}/>}
-                    <label className="form-check-label">Private</label>
+                    {pet.visibility ? <input className="form-check-input" type="checkbox" onChange={() => changePrivacy(pet)} checked/> : <input className="form-check-input" type="checkbox" onChange={() => changePrivacy(pet)}/>}
+                    <label className="form-check-label">Public</label>
                   </div>
                 </td>
                 <td className="text">
