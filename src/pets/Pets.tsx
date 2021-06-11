@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { Pet, loadPets, savePet, changePetPrivacy } from "./petsService"
+import { Pet, loadPets, changePetPrivacy } from "./petsService"
 import "../styles.css"
 import { useErrorHandler } from "../common/utils/ErrorHandler"
 import { goHome, useForceUpdate } from "../common/utils/Tools"

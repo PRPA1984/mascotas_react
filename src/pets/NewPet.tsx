@@ -97,7 +97,7 @@ export default function NewPet(props: RouteComponentProps<{ id: string }>) {
 
   const petPictures = () => {
     const auxPictures:any = []
-    const deleteMessage:string = "Delete"
+    const deleteMessage = "Delete"
     if (pictures) {
         for (let i = 0; i < pictures?.length + 1; i++) {
             if(i === 0){
